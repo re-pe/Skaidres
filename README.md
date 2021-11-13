@@ -2,6 +2,6 @@
 
 VSCode
 
-- Suinstaliuoti VSCode Live Server
+- Suinstaliuoti VSCode plėtinį Live Server
 
-- Norint paleisti spausti Go Live statuso juostoje.
+- Norint paleisti, spausti Go Live statuso juostoje.
