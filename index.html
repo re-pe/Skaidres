@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Spectacle One-Page Example</title>
+    </head>
+
+    <body>
+        <div id="root"></div>
+
+        <script crossorigin src="https://unpkg.com/react@17.0.1/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@17.0.1/umd/react-dom.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-is@17.0.1/umd/react-is.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/prop-types@15.7.2/prop-types.min.js"></script>
+        <script crossorigin src="https://unpkg.com/spectacle@^8/dist/spectacle.min.js"></script>
+        <!-- <script src="../dist/spectacle.min.js"></script> -->
+
+        <script type="module">
+
+            import Spectacle from './src/helpers/spectacle.js';
+            import Tags from './src/helpers/tags.js';
+            import Fragments from './src/helpers/fragments.js';
+
+            const {
+                FlexBox,
+                Heading,
+                SpectacleLogo,
+                UnorderedList,
+                CodeSpan,
+                OrderedList,
+                ListItem,
+                FullScreen,
+                Progress,
+                Appear,
+                Stepper,
+                Slide,
+                Deck,
+                Text,
+                Grid,
+                Box,
+                Image,
+                CodePane,
+                MarkdownSlide,
+                MarkdownSlideSet,
+                Notes
+            } = Spectacle;
+
+            const { div, i, li, ol } = Tags;
+            const formidableLogo = 'https://avatars2.githubusercontent.com/u/5078602?s=280&v=4';
+
+            // SPECTACLE_CLI_THEME_START
+            const theme = {
+                fonts: {
+                    header: '"Open Sans Condensed", Helvetica, Arial, sans-serif',
+                    text: '"Open Sans Condensed", Helvetica, Arial, sans-serif'
+                }
+            };
+            // SPECTACLE_CLI_THEME_END
+
+            // SPECTACLE_CLI_TEMPLATE_START
+            const template = () => FlexBox(
+                { justifyContent: "space-between", position: "absolute", bottom: 0, width: 1 },
+                Box(
+                    { padding: "0 1em" },
+                    FullScreen()
+                ),
+                Box(
+                    { padding: "1em" },
+                    Progress()
+                )
+            );
+            // SPECTACLE_CLI_TEMPLATE_END
+
+            const SlideFragments = () => Fragments(
+                Slide(
+                    Text("This is slide fragment.")
+                ),
+                Slide(
+                    Text("This is also a slide fragment."),
+                    Appear(
+                        Text("This item shows up!")
+                    ),
+                    Appear(
+                        Text("This item also shows up!")
+                    )
+                )
+            );
+
+            const Presentation = () => (
+                Deck({ theme, template },
+                    Slide(
+                        FlexBox({ height: "100%" },
+                            SpectacleLogo({ size: 500 })
+                        ),
+                        Notes(
+                            "Spectacle supports notes per slide.",
+                            ol(
+                                li("Notes can now be HTML markup!"),
+                                li("Lists can make it easier to make points.")
+                            )
+                        )
+                    ),
+                    Slide(
+                        FlexBox({ height: "100%", flexDirection: "column" },
+                            Heading({ margin: "0px", fontSize: "150px" }, "✨ ", i("Spectacle"), " ✨"),
+                            Heading({ margin: "0px", fontSize: "h2" }, "A ReactJS Presentation Library"),
+                            Heading({ margin: "0px 32px", color: "primary", fontSize: "h3" }, "Where you can write your decks in JSX, Markdown, or MDX!"),
+                        )
+                    ),
+                    Slide(
+                        {
+                            transition: {
+                                from: {
+                                    transform: 'scale(0.5) rotate(45deg)',
+                                    opacity: 0
+                                },
+                                enter: {
+                                    transform: 'scale(1) rotate(0)',
+                                    opacity: 1
+                                },
+                                leave: {
+                                    transform: 'scale(0.2) rotate(315deg)',
+                                    opacity: 0
+                                }
+                            },
+                            backgroundColor: "tertiary",
+                            backgroundImage: "url(https://github.com/FormidableLabs/dogs/blob/main/src/beau.jpg?raw=true)",
+                            backgroundOpacity: 0.5
+                        },
+                        Heading("Custom Backgrounds"),
+                        UnorderedList(
+                            ListItem(
+                                CodeSpan("backgroundColor")
+                            ),
+                            ListItem(
+                                CodeSpan("backgroundImage")
+                            ),
+                            ListItem(
+                                CodeSpan("backgroundOpacity")
+                            ),
+                            ListItem(
+                                CodeSpan("backgroundSize")
+                            ),
+                            ListItem(
+                                CodeSpan("backgroundPosition")
+                            ),
+                            ListItem(
+                                CodeSpan("backgroundRepeat")
+                            ),
+                        )
+                    ),
+                    Slide(
+                        Heading("Animated Elements"),
+                        OrderedList(
+                            Appear(
+                                ListItem("Elements can animate in!")
+                            ),
+                            Appear(
+                                ListItem("Out of order")
+                            ),
+                            Appear(
+                                { priority: 0 },
+                                ListItem("Just identify the order with the prop ", CodeSpan("priority"), "!")
+                            ),
+                        )
+                    ),
+                    Slide(
+                        FlexBox(
+                            Text("These"),
+                            Text("Text"),
+                            Text({ color: "secondary" }, "Items"),
+                            Text({ fontWeight: "bold" }, "Flex"),
+                        ),
+                        Grid(
+                            { gridTemplateColumns: "1fr 2fr", gridColumnGap: 15 },
+                            Box(
+                                { backgroundColor: "primary" },
+                                Text({ color: "secondary" }, "Single-size Grid Item")
+                            ),
+                            Box(
+                                { backgroundColor: "secondary" },
+                                Text("Double-size Grid Item")
+                            )
+                        ),
+                        Grid(
+                            {
+                                gridTemplateColumns: "1fr 1fr 1fr",
+                                gridTemplateRows: "1fr 1fr 1fr",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gridRowGap: 1,
+                            },
+                            Array(9).fill('').map((_, index) => FlexBox(
+                                { paddingTop: 0, key: `formidable-logo-${index}`, flex: 1 },
+                                Image({ src: formidableLogo, width: 100 })
+                            ))
+                        )
+                    ),
+                    SlideFragments(),
+                    Slide(
+                        CodePane(
+                            { language: "jsx" },
+                            `
+                            import { createClient, Provider } from 'urql';
+                            const client = createClient({ url: 'https://0ufyz.sse.codesandbox.io' });
+                            const App = () => (
+                                <Provider value={client}>
+                                    <Todos />
+                                </Provider>
+                            );
+                            `
+                        ),
+                        Box({ height: 20 }),
+                        CodePane(
+                            { language: "java", showLineNumbers: false },
+                            `
+                            public class NoLineNumbers {
+                                public static void main(String[] args) {
+                                    System.out.println("Hello");
+                                }
+                            }
+                            `
+                        )
+                    ),
+                    div(
+                        Slide(
+                            Heading("This is a slide embedded in a div")
+                        )
+                    ),
+                    MarkdownSlide(
+                        { componentProps: { color: 'yellow' } },
+                        `
+                        # This is a Markdown Slide
+                        - You can pass props down to all elements on the slide.
+                        - Just use the \`componentProps\` prop.
+                        `
+                    ),
+                    MarkdownSlide(
+                        { animateListItems: true },
+                        `
+                        # This is also a Markdown Slide
+                        It uses the \`animateListItems\` prop.
+                        - Its list items...
+                        - ...will appear...
+                        - ...one at a time.
+                        `
+                    ),
+                    Slide(
+                        Grid(
+                            { flex: 1, gridTemplateColumns: "50% 50%", gridTemplateRows: "50% 50%", height: "100%" },
+                            FlexBox(
+                                { alignItems: "center", justifyContent: "center" },
+                                Heading("This is a 4x4 Grid")
+                            ),
+                            FlexBox(
+                                { alignItems: "center", justifyContent: "center" },
+                                Text({ textAlign: "center" }, "With all the content aligned and justified center.")
+                            ),
+                            FlexBox(
+                                { alignItems: "center", justifyContent: "center" },
+                                Text(
+                                    { textAlign: "center" },
+                                    "It uses Spectacle ", CodeSpan("<Grid />"), " and ", CodeSpan("<FlexBox />"), " components."
+                                ),
+                            ),
+                            FlexBox(
+                                { alignItems: "center", justifyContent: "center" },
+                                Box({ width: 200, height: 200, backgroundColor: "secondary" })
+                            )
+                        )
+                    ),
+                    MarkdownSlideSet(
+                        `
+                            # This is the first slide of a Markdown Slide Set
+                            ---
+                            # This is the second slide of a Markdown Slide Set
+                        `
+                    )
+                )
+            );
+
+            ReactDOM.render(Presentation(), document.getElementById('root'));
+        </script>
+    </body>
+
+</html>
